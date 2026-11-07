@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Free Fire India Showdown – Squad Registration</title>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Hind:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f6efe2;--bg2:#efe4d0;--card:#ffffff;--ink:#1a1530;--muted:#5f5a78;--line:#dccdb0;
+  --ember:#e8470f;--gold:#b9770a;--goldbright:#f5b83d;--glow:rgba(232,71,15,.25);--err:#b3261e;--ok:#127a4a;--hero:#150f33;--heroink:#fff3dc;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b0a16;--bg2:#120f26;--card:#16132e;--ink:#fff3dc;--muted:#aaa5cc;--line:#2e2a5a;--ember:#ff6a2b;--gold:#f5b83d;--glow:rgba(255,106,43,.3);--err:#ff8a80;--ok:#5fd9a0;--hero:#0b0a16}}
+:root[data-theme="dark"]{--bg:#0b0a16;--bg2:#120f26;--card:#16132e;--ink:#fff3dc;--muted:#aaa5cc;--line:#2e2a5a;--ember:#ff6a2b;--gold:#f5b83d;--glow:rgba(255,106,43,.3);--err:#ff8a80;--ok:#5fd9a0;--hero:#0b0a16}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Hind',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:17px;line-height:1.55}
+h1,h2,h3.d{font-family:'Anton','Impact','Arial Narrow',sans-serif;font-weight:400;margin:0;line-height:1.02}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px;position:relative;z-index:2}
+
+/* top bar + progress */
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--hero) 88%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid rgba(245,184,61,.25)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--hero);z-index:21}
+.bar .wrap{display:flex;align-items:center;justify-content:space-between;height:52px}
+.brand{font-family:'Anton',sans-serif;color:var(--heroink);font-size:19px;letter-spacing:.05em}
+.brand i{color:var(--goldbright);font-style:normal}
+.pill{font-size:13px;color:var(--goldbright);border:1px solid rgba(245,184,61,.5);padding:3px 12px;border-radius:99px}
+.prog{height:3px;background:rgba(255,255,255,.08)}
+.prog span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--ember),var(--goldbright));transition:width .3s}
+
+/* hero */
+.hero{background:var(--hero);color:var(--heroink);padding:56px 0 64px;position:relative;overflow:hidden;isolation:isolate}
+.hero::before{content:"";position:absolute;inset:-20% -30% auto auto;width:560px;height:560px;border-radius:50%;background:radial-gradient(circle,rgba(255,106,43,.55),rgba(255,106,43,0) 65%);z-index:-1}
+.hero::after{content:"";position:absolute;left:-20%;bottom:-40%;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,rgba(110,70,255,.35),rgba(110,70,255,0) 65%);z-index:-1}
+.slash{position:absolute;right:-40px;top:0;bottom:0;width:180px;background:repeating-linear-gradient(115deg,rgba(245,184,61,.14) 0 2px,transparent 2px 22px);z-index:-1}
+.hero h1{font-size:clamp(54px,15vw,112px);text-transform:uppercase;letter-spacing:.01em}
+.hero h1 em{font-style:normal;display:block;color:transparent;-webkit-text-stroke:2px var(--goldbright)}
+.hero p.lead{max-width:30em;margin:20px 0 0;font-size:19px;color:#f1dcb8}
+.cta{display:inline-block;margin-top:28px;padding:15px 30px;border-radius:3px;font-family:'Anton',sans-serif;font-size:20px;letter-spacing:.06em;text-decoration:none;color:#fff;background:linear-gradient(135deg,#ff5a1f,#ff9a2f);box-shadow:0 8px 30px rgba(255,106,43,.45);clip-path:polygon(0 0,100% 0,calc(100% - 14px) 100%,0 100%)}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;margin-top:40px;background:rgba(245,184,61,.3);border:1px solid rgba(245,184,61,.3);max-width:460px}
+.stats div{background:rgba(21,15,51,.85);padding:14px 16px}
+.stats b{display:block;font-family:'Anton',sans-serif;font-weight:400;font-size:26px;color:var(--goldbright)}
+.stats span{font-size:14px;color:#cdbfa3}
+
+/* format */
+.fmt{padding:48px 0 8px}
+.fmt h2{font-size:34px;margin-bottom:18px}
+.steps{display:grid;gap:14px}
+@media(min-width:620px){.steps{grid-template-columns:repeat(3,1fr)}}
+.step{background:var(--card);border:1px solid var(--line);border-top:3px solid var(--ember);padding:18px}
+.step h3{margin:0 0 6px;font-size:20px}
+.step p{margin:0;color:var(--muted);font-size:15px}
+.step small{display:block;color:var(--gold);font-weight:600;margin-bottom:4px}
+
+/* form */
+main{padding:40px 0 70px;background:linear-gradient(var(--bg),var(--bg2))}
+fieldset{border:1px solid var(--line);margin:0 0 22px;padding:22px 20px;background:var(--card);position:relative;box-shadow:0 14px 40px -24px rgba(0,0,0,.5)}
+fieldset::before{content:"";position:absolute;left:-1px;top:-1px;width:36px;height:3px;background:var(--ember)}
+legend{font-family:'Anton',sans-serif;font-size:25px;padding:0 10px;margin-left:-10px;background:var(--card)}
+.hint{margin:0 0 16px;color:var(--muted);font-size:15px}
+.row{display:grid;gap:14px}
+@media(min-width:560px){.row.two{grid-template-columns:1fr 1fr}}
+label{display:block;font-weight:600;font-size:15px}
+input,select{width:100%;margin-top:6px;padding:12px 14px;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:3px;min-height:48px;transition:border-color .15s,box-shadow .15s}
+input:focus,select:focus{outline:none;border-color:var(--ember);box-shadow:0 0 0 4px var(--glow)}
+button:focus-visible,a:focus-visible{outline:3px solid var(--goldbright);outline-offset:2px}
+.player{border-top:1px dashed var(--line);padding-top:18px;margin-top:18px}
+.player:first-of-type{border:0;padding-top:0;margin-top:0}
+.player h3{margin:0 0 10px;font-size:17px}
+.tag{font-weight:500;color:var(--muted);font-size:14px}
+.err{display:none;color:var(--err);font-size:14px;margin-top:4px;font-weight:500}
+.bad .err{display:block}.bad input,.bad select{border-color:var(--err)}
+.check{display:flex;gap:12px;align-items:flex-start;font-weight:400}
+.check input{width:24px;min-height:24px;margin:3px 0 0;accent-color:var(--ember)}
+button.go{width:100%;padding:18px;font-family:'Anton',sans-serif;font-size:24px;letter-spacing:.06em;color:#fff;background:linear-gradient(135deg,#ff5a1f,#ff9a2f);border:0;border-radius:3px;cursor:pointer;min-height:58px;box-shadow:0 10px 30px -8px rgba(255,106,43,.6);position:relative;overflow:hidden}
+button.go::after{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.4),transparent);transform:skewX(-20deg);transition:left .6s}
+button.go:hover::after{left:130%}
+.secure{text-align:center;color:var(--muted);font-size:14px;margin-top:12px}
+
+/* ticket */
+.done{display:none;margin:0 auto}
+.ticket{background:var(--hero);color:var(--heroink);border:1px solid rgba(245,184,61,.5);position:relative;overflow:hidden}
+.ticket .top{padding:28px 22px 24px;background:radial-gradient(circle at 90% 0,rgba(255,106,43,.45),transparent 55%)}
+.ticket h2{font-size:42px;color:var(--goldbright)}
+.ticket .tn{font-family:'Anton',sans-serif;font-size:30px;margin-top:14px;letter-spacing:.03em;word-break:break-word}
+.ticket .meta{color:#d7c6a4;font-size:15px;margin-top:4px}
+.perf{border-top:2px dashed rgba(245,184,61,.5);position:relative}
+.perf::before,.perf::after{content:"";position:absolute;top:-11px;width:20px;height:20px;border-radius:50%;background:var(--bg)}
+.perf::before{left:-11px}.perf::after{right:-11px}
+.ticket .bot{padding:20px 22px 24px}
+.ticket .rid{font-family:'Anton',sans-serif;font-size:32px;letter-spacing:.08em;color:#fff}
+.ticket small{color:#cdbfa3}
+.again{margin-top:18px;padding:12px 20px;font:inherit;font-weight:600;color:var(--ink);background:transparent;border:1px solid var(--ink);border-radius:3px;cursor:pointer;min-height:46px}
+.rules{margin-top:36px;color:var(--muted);font-size:15px}
+.rules h2{font-size:26px;color:var(--ink);margin-bottom:8px}
+.rules ul{padding-left:20px;margin:0}
+footer{background:var(--hero);color:#a79fc9;text-align:center;font-size:13px;padding:22px 20px}
+@media(prefers-reduced-motion:no-preference){.done.show{animation:pop .45s cubic-bezier(.2,.9,.3,1.2)}@keyframes pop{from{transform:translateY(16px) scale(.97);opacity:0}to{transform:none;opacity:1}}.hero h1{animation:rise .8s ease-out both}@keyframes rise{from{transform:translateY(24px);opacity:0}to{transform:none;opacity:1}}}
+</style>
+</head>
+<body>
+<div class="bar"><div class="wrap"><span class="brand">FREE FIRE <i>INDIA</i></span><span class="pill">Registrations open</span></div><div class="prog"><span id="pg"></span></div></div>
+
+<header class="hero">
+  <div class="slash"></div>
+  <div class="wrap">
+    <h1>Free Fire India <em>Showdown</em></h1>
+    <p class="lead">Four players. One squad. Register free, survive the online qualifiers and drop into the grand finals.</p>
+    <a class="cta" href="#reg">Register your squad</a>
+    <div class="stats">
+      <div><b>4 + 1</b><span>Squad and substitute</span></div>
+      <div><b>FREE</b><span>No entry fee</span></div>
+      <div><b>ONLINE</b><span>Qualifiers on mobile</span></div>
+      <div><b>16+</b><span>Open across India</span></div>
+    </div>
+  </div>
+</header>
+
+<section class="fmt"><div class="wrap">
+  <h2>How the tournament works</h2>
+  <div class="steps">
+    <div class="step"><small>Stage 1</small><h3>Online qualifiers</h3><p>Every squad plays custom-room matches. Top scorers move ahead.</p></div>
+    <div class="step"><small>Stage 2</small><h3>Semi-finals</h3><p>The strongest squads compete for the final lobby.</p></div>
+    <div class="step"><small>Stage 3</small><h3>Grand finals</h3><p>The last squads standing fight for the title. Dates announced to captains.</p></div>
+  </div>
+</div></section>
+
+<main id="reg"><div class="wrap">
+<form id="f" novalidate>
+  <fieldset>
+    <legend>Your team</legend>
+    <div class="row two">
+      <label>Team name<input name="team" maxlength="24" autocomplete="off" required><span class="err">Enter a team name (3–24 characters).</span></label>
+      <label>State<select name="state" required><option value="">Select your state</option></select><span class="err">Select your state or union territory.</span></label>
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Captain contact</legend>
+    <p class="hint">Match room details go to the captain only.</p>
+    <div class="row two">
+      <label>Full name<input name="cname" autocomplete="name" required><span class="err">Enter the captain’s full name.</span></label>
+      <label>Mobile number<input name="phone" type="tel" inputmode="numeric" maxlength="10" placeholder="10-digit number" autocomplete="tel-national" required><span class="err">Enter a valid 10-digit Indian mobile number.</span></label>
+    </div>
+    <div class="row" style="margin-top:14px"><label>Email<input name="email" type="email" autocomplete="email" required><span class="err">Enter a valid email address.</span></label></div>
+  </fieldset>
+
+  <fieldset id="players">
+    <legend>Squad players</legend>
+    <p class="hint">Player 1 is the captain. Find each UID on the Free Fire profile screen.</p>
+  </fieldset>
+
+  <fieldset>
+    <legend>Agreement</legend>
+    <label class="check"><input type="checkbox" name="rules" required><span>I confirm that all players are 16 or older, use their own accounts, and will follow the tournament rules.<span class="err" style="display:block">Accept the rules to register.</span></span></label>
+  </fieldset>
+
+  <button class="go" type="submit">Register my squad</button>
+  <p class="secure">Free to enter. Your details are used only for this tournament.</p>
+</form>
+
+<section class="done" id="done" aria-live="polite" tabindex="-1">
+  <div class="ticket">
+    <div class="top"><h2>You’re in</h2><div class="tn" id="tn"></div><div class="meta" id="meta"></div></div>
+    <div class="perf"></div>
+    <div class="bot"><small>Registration ID</small><div class="rid" id="rid"></div><small id="note"></small></div>
+  </div>
+  <button type="button" class="again" id="again">Register another squad</button>
+</section>
+
+<section class="rules">
+  <h2>Tournament rules</h2>
+  <ul>
+    <li>One squad per player. Duplicate UIDs are removed.</li>
+    <li>Emulators, hacks and third-party tools mean disqualification.</li>
+    <li>Be in the room 15 minutes before each match starts.</li>
+    <li>Organisers’ decisions are final.</li>
+  </ul>
+</section>
+</div></main>
+<footer>Fan-made registration page. Not affiliated with Garena or Free Fire.</footer>
+
+<script>
+(function(){
+  var states=["Andhra Pradesh","Arunachal Pradesh","Assam","Bihar","Chhattisgarh","Goa","Gujarat","Haryana","Himachal Pradesh","Jharkhand","Karnataka","Kerala","Madhya Pradesh","Maharashtra","Manipur","Meghalaya","Mizoram","Nagaland","Odisha","Punjab","Rajasthan","Sikkim","Tamil Nadu","Telangana","Tripura","Uttar Pradesh","Uttarakhand","West Bengal","Delhi","Jammu and Kashmir","Ladakh","Chandigarh","Puducherry","Other UT"];
+  var f=document.getElementById('f'),done=document.getElementById('done'),pg=document.getElementById('pg');
+  var sel=f.elements.state;
+  states.forEach(function(s){var o=document.createElement('option');o.value=s;o.textContent=s;sel.appendChild(o)});
+  var box=document.getElementById('players');
+  for(var i=1;i<=5;i++){
+    var sub=i===5,d=document.createElement('div');d.className='player';
+    d.innerHTML='<h3>'+(sub?'Substitute <span class="tag">(optional)</span>':'Player '+i+(i===1?' <span class="tag">(captain)</span>':''))+'</h3>'+
+    '<div class="row two"><label>In-game name<input name="pn'+i+'" autocomplete="off"'+(sub?'':' required')+'><span class="err">Enter the in-game name.</span></label>'+
+    '<label>Free Fire UID<input name="pu'+i+'" inputmode="numeric" maxlength="12" autocomplete="off"'+(sub?'':' required')+'><span class="err">Enter a unique UID of 8 to 12 digits.</span></label></div>';
+    box.appendChild(d);
+  }
+  function setBad(el,bad){var p=el.closest('label')||el.closest('.check');if(p)p.classList.toggle('bad',bad)}
+  function progress(){
+    var req=[].slice.call(f.querySelectorAll('[required]')),n=0;
+    req.forEach(function(el){if(el.type==='checkbox'?el.checked:el.value.trim())n++});
+    pg.style.width=Math.round(n/req.length*100)+'%';
+  }
+  function check(){
+    var ok=true,seen={},q=function(n){return f.elements[n]};
+    function chk(el,t){var g=t(el.value.trim());setBad(el,!g);if(!g)ok=false;return g}
+    chk(q('team'),function(v){return v.length>=3&&v.length<=24});
+    chk(q('state'),function(v){return !!v});
+    chk(q('cname'),function(v){return v.length>=2});
+    chk(q('phone'),function(v){return /^[6-9]\d{9}$/.test(v)});
+    chk(q('email'),function(v){return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)});
+    for(var i=1;i<=5;i++){
+      var n=q('pn'+i),u=q('pu'+i);
+      if(i===5&&!n.value.trim()&&!u.value.trim()){setBad(n,false);setBad(u,false);continue}
+      chk(n,function(v){return v.length>=2});
+      if(chk(u,function(v){return /^\d{8,12}$/.test(v)})){var v=u.value.trim();if(seen[v]){setBad(u,true);ok=false}else seen[v]=1}
+    }
+    var r=q('rules');setBad(r,!r.checked);if(!r.checked)ok=false;
+    return ok;
+  }
+  f.addEventListener('submit',function(e){
+    e.preventDefault();
+    if(!check()){var b=f.querySelector('.bad');if(b)b.scrollIntoView({behavior:'smooth',block:'center'});return}
+    var id='FFI-'+Math.random().toString(36).slice(2,6).toUpperCase()+'-'+Date.now().toString().slice(-4);
+    var team=f.elements.team.value.trim(),state=f.elements.state.value,cap=f.elements.cname.value.trim();
+    try{localStorage.setItem('ffi-last',JSON.stringify({id:id,team:team,state:state,captain:cap}))}catch(err){}
+    document.getElementById('tn').textContent=team;
+    document.getElementById('meta').textContent=state+' · Captain '+cap;
+    document.getElementById('rid').textContent=id;
+    document.getElementById('note').textContent='Keep this ID for match day. Details will be sent to '+f.elements.email.value.trim()+'.';
+    f.style.display='none';done.style.display='block';done.classList.add('show');done.focus();
+    document.getElementById('reg').scrollIntoView({behavior:'smooth'});
+  });
+  f.addEventListener('input',function(e){var t=e.target;if(t.name==='phone'||/^pu/.test(t.name))t.value=t.value.replace(/\D/g,'');var p=t.closest('label');if(p)p.classList.remove('bad');progress()});
+  f.addEventListener('change',progress);
+  document.getElementById('again').addEventListener('click',function(){f.reset();progress();done.style.display='none';done.classList.remove('show');f.style.display='block';document.getElementById('reg').scrollIntoView()});
+})();
+</script>
+</body>
+</html>
